@@ -1,0 +1,61 @@
+# Fungsi untuk mengenkripsi pesan
+def encrypt(text, shift):
+    encrypted_text = ""
+    
+    # Looping setiap karakter pada text
+    for char in text:
+        # Jika karakter adalah huruf besar
+        if char.isupper():
+            encrypted_text += chr((ord(char) + shift - 65) % 26 + 65)
+        # Jika karakter adalah huruf kecil
+        elif char.islower():
+            encrypted_text += chr((ord(char) + shift - 97) % 26 + 97)
+        # Jika karakter bukan huruf, tetap seperti aslinya
+        else:
+            encrypted_text += char
+    
+    return encrypted_text
+
+# Fungsi untuk mendekripsi pesan
+def decrypt(text, shift):
+    decrypted_text = ""
+    
+    # Looping setiap karakter pada text
+    for char in text:
+        # Jika karakter adalah huruf besar
+        if char.isupper():
+            decrypted_text += chr((ord(char) - shift - 65) % 26 + 65)
+        # Jika karakter adalah huruf kecil
+        elif char.islower():
+            decrypted_text += chr((ord(char) - shift - 97) % 26 + 97)
+        # Jika karakter bukan huruf, tetap seperti aslinya
+        else:
+            decrypted_text += char
+    
+    return decrypted_text
+
+# Fungsi untuk memvalidasi input enkripsi dengan hasil enkripsi sebelumnya
+def is_exact_match(encrypted_input, original_encryption):
+    # Cek jika input enkripsi sesuai dengan hasil enkripsi asli
+    return encrypted_input == original_encryption
+
+# Input dari pengguna untuk mengenkripsi pesan
+message = input("Masukkan pesan yang ingin dienkripsi: ")
+shift = int(input("Masukkan pergeseran kunci (shift): "))
+
+# Enkripsi pesan
+encrypted_message = encrypt(message, shift)
+print("Hasil Enkripsi:", encrypted_message)
+
+# Input hasil enkripsi untuk didekripsi
+while True:
+    encrypted_input = input("\nMasukkan pesan yang ingin didekripsi (sesuai hasil enkripsi): ")
+    
+    # Validasi input enkripsi dengan hasil enkripsi asli
+    if not is_exact_match(encrypted_input, encrypted_message):
+        print("Pesan yang dimasukkan tidak sesuai dengan hasil enkripsi. Harap masukkan pesan dengan tepat.")
+    else:
+        # Jika valid, dekripsi pesan
+        decrypted_message = decrypt(encrypted_input, shift)
+        print("Hasil Dekripsi:", decrypted_message)
+        break
